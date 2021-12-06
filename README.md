@@ -45,3 +45,6 @@ It also uses a placeholder for the *chip_io* module that forwards the clock to c
 Right now is only using the *sky130_fd_sc_hd* cell lib
 
 
+## TODO
+
+- Confirm that the default `make rcx-module` from the caravel Makefile correct to generate the missing caravel modules .spef files?  (as the current `make caravel_rcx` is a copy of that script with a minor change)
