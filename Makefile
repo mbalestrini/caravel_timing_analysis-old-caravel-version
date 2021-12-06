@@ -1,17 +1,21 @@
 CARAVEL_ROOT = $(shell pwd)/caravel
 STD_CELL_LIBRARY = sky130_fd_sc_hd
+SPECIAL_VOLTAGE_LIBRARY ?= sky130_fd_sc_hvl
 
 OPENLANE_IMAGE_NAME=efabless/openlane:mpw-3a
-RESULTS_PATH = $(shell pwd)/results
+
+#RESULTS_PATH = $(shell pwd)/results
 EXTRA_CARAVEL_FILES = $(shell pwd)/extra_caravel_files
 
 
-caravel_sta: caravel_rcx
+caravel_sta-%: caravel_rcx
 	echo "\n\033[94mRunning Caravel Timing Analysis\033[0m\n"
 
+	$(eval RESULTS_PATH := $(shell pwd)/results/$*)
+	
 	mkdir -p $(RESULTS_PATH)/tmp
 
-	cp ./scripts/sta_caravel.tcl ./results/tmp/sta_caravel.tcl
+	cp ./scripts/sta_caravel.tcl $(RESULTS_PATH)/tmp/sta_caravel.tcl
 
 	docker run -it -v $(EXTRA_CARAVEL_FILES):/extra_caravel_files -v $(RESULTS_PATH):/results -v $(OPENLANE_ROOT):/openLANE_flow -v $(PDK_ROOT):$(PDK_ROOT) -v $(CARAVEL_ROOT):/caravel -e PDK_ROOT=$(PDK_ROOT) -u $(shell id -u $(USER)):$(shell id -g $(USER)) $(OPENLANE_IMAGE_NAME) \
 	sh -c " cd /caravel; sta -exit /results/tmp/sta_caravel.tcl |& tee /results/sta_caravel_$(shell date +%y%m%d_%H%M%S).log" 
@@ -22,6 +26,8 @@ caravel_rcx: $(CARAVEL_ROOT)/spef/mgmt_protect.spef $(CARAVEL_ROOT)/spef/caravel
 
 $(CARAVEL_ROOT)/spef/%.spef:
 
+	$(eval RESULTS_PATH := $(shell pwd)/results/$*)
+	
 	echo "\n\033[94mGenerating $*.spef\033[0m\n"
 
 	mkdir -p $(CARAVEL_ROOT)/spef
