@@ -1007,15 +1007,15 @@ module chip_io(vddio_pad, vddio_pad2, vssio_pad, vssio_pad2, vccd_pad, vssd_pad,
   wire xresloop;
  
 
-  //*
-  sky130_fd_sc_hd__clkbuf_1 __FAKE_CELL_1__ (.A(clock ),
+  /*
+  sky130_fd_sc_hd__clkbuf_16 __FAKE_CELL_1__ (.A(clock ),
     .X(clock_core),
     .VGND(vssd1),
     .VNB(vssd1),
     .VPB(vccd1),
     .VPWR(vccd1));
 //*/
-  // assign clock_core = clock;
+  assign clock_core = clock;
 
 
   assign \mprj_io_enh[18]  = porb_h;
