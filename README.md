@@ -22,7 +22,7 @@
 - Create the folder `/user_projects/[NAME_OF_PROJECT_FOLDER]` (you can duplicate `user_projects/empty` to use as a template)
 - Add the extra verilog and spef files you need to `/user_projects/[NAME_OF_PROJECT_FOLDER]`
 - Create or modify the script file `/user_projects/[NAME_OF_PROJECT_FOLDER]/sta_caravel.tcl` to  use the extra files
-- The folder `/user_projects/[NAME_OF_PROJECT_FOLDER]` is going to be mapped to `/project_files`, so use that path to refer to your extra files (ej: read_verilog /project_files/verilog/user_project_wrapper.v)
+- The folder `/user_projects/[NAME_OF_PROJECT_FOLDER]` is going to be mapped to `/project_files`, so use that path in the .tcl script to refer to your extra files (ej: read_verilog /project_files/verilog/user_project_wrapper.v)
 - Create or modify the SDC file `/user_projects/[NAME_OF_PROJECT_FOLDER]/caravel.sdc`
 
 ## results
