@@ -1,6 +1,5 @@
 CARAVEL_ROOT = $(shell pwd)/caravel
-STD_CELL_LIBRARY ?= sky130_fd_sc_hd
-SPECIAL_VOLTAGE_LIBRARY ?= sky130_fd_sc_hvl
+STD_CELL_LIBRARY = sky130_fd_sc_hd
 
 OPENLANE_IMAGE_NAME=efabless/openlane:mpw-3a
 RESULTS_PATH = $(shell pwd)/results
