@@ -26,11 +26,9 @@
 - Create or modify the SDC file `/user_projects/[NAME_OF_PROJECT_FOLDER]/caravel.sdc`
 
 ## results
-spef files in `/caravel/spef`
+caravel spef files in `/caravel/spef`
 
 sta log files in `/results/[NAME_OF_PROJECT_FOLDER]`
-
-temp script files in `/results/[NAME_OF_PROJECT_FOLDER]/tmp`
 
 ---
 
