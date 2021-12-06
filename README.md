@@ -36,10 +36,10 @@ temp script files in `/results/[NAME_OF_PROJECT_FOLDER]/tmp`
 
 ## some notes
 The default script right now only uses the following caravel modules for doing the analysis:
-- /carvel/verilog/gl/digital_pll.v
-- /carvel/verilog/gl/mgmt_core.v
-- /carvel/verilog/gl/mgmt_protect.v
-- /carvel/verilog/gl/caravel.v
+- digital_pll
+- mgmt_core
+- mgmt_protect
+- caravel
 
 It also uses a placeholder for the *chip_io* module that forwards the clock to core_clock:
 - [NAME_OF_PROJECT_FOLDER]/verilog/chip_io_PLACEHOLDER.v
