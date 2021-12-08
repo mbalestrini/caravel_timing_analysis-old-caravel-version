@@ -1,34 +1,67 @@
 set STD_CELL_LIBRARY sky130_fd_sc_hd
+set SPECIAL_VOLTAGE_LIBRARY sky130_fd_sc_hvl
+
 
 set RESULTS_PATH /results
 
+# Some color
+puts "\033\[94m"
+
 set_cmd_units -time ns -capacitance pF -current mA -voltage V -resistance kOhm -distance um;
 
-puts "\033\[94m"
-read_liberty $::env(PDK_ROOT)/sky130A/libs.ref/$STD_CELL_LIBRARY/lib/$STD_CELL_LIBRARY\__tt_025C_1v80.lib;\
+read_liberty $::env(PDK_ROOT)/sky130A/libs.ref/$STD_CELL_LIBRARY/lib/$STD_CELL_LIBRARY\__tt_025C_1v80.lib;
+read_liberty $::env(PDK_ROOT)/sky130A/libs.ref/$SPECIAL_VOLTAGE_LIBRARY/lib/$SPECIAL_VOLTAGE_LIBRARY\__tt_025C_3v30.lib;
+
 
 read_verilog /project_files/verilog/wrapped_hack_soc.v; 
 read_verilog /project_files/verilog/wrapped_wishbone_demo.v; 
 read_verilog /project_files/verilog/user_project_wrapper.v;
 read_verilog /project_files/verilog/chip_io_PLACEHOLDER.v;
-# read_verilog ./verilog/gl/chip_io.v; 
 
+read_verilog /caravel/verilog/gl/gpio_logic_high.v 
+read_verilog /caravel/verilog/gl/gpio_control_block.v 
+read_verilog /caravel/verilog/gl/storage.v 
+read_verilog /caravel/verilog/gl/user_id_programming.v
+read_verilog /caravel/verilog/gl/mgmt_protect_hv.v; 
+read_verilog /caravel/verilog/gl/mprj_logic_high.v; 
+read_verilog /caravel/verilog/gl/mprj2_logic_high.v; 
+read_verilog /caravel/verilog/gl/DFFRAM.v; 
 read_verilog /caravel/verilog/gl/digital_pll.v; 
 read_verilog /caravel/verilog/gl/mgmt_core.v;
 read_verilog /caravel/verilog/gl/mgmt_protect.v;
 read_verilog /caravel/verilog/gl/caravel.v;
+
 link_design caravel;
 
 read_spef -path mprj/wrapped_hack_soc_6 /project_files/spef/wrapped_hack_soc.spef;
 read_spef -path mprj/wrapped_wishbone_demo_13 /project_files/spef/wrapped_wishbone_demo.spef
 read_spef -path mprj /project_files/spef/user_project_wrapper.spef;
 
+for { set i 0}  {$i <= 1} {incr i} {
+    read_spef -path gpio_control_bidir_1[$i] /caravel/spef/gpio_control_block.spef;
+    read_spef -path gpio_control_bidir_2[$i] /caravel/spef/gpio_control_block.spef;
+
+    read_spef -path gpio_control_bidir_1[$i]/gpio_logic_high /caravel/spef/gpio_logic_high.spef;
+    read_spef -path gpio_control_bidir_2[$i]/gpio_logic_high /caravel/spef/gpio_logic_high.spef;
+}
+for { set i 0}  {$i <= 16} {incr i} {
+    read_spef -path gpio_control_in_1[$i] /caravel/spef/gpio_control_block.spef;
+    read_spef -path gpio_control_in_2[$i] /caravel/spef/gpio_control_block.spef;
+
+    read_spef -path gpio_control_in_1[$i]/gpio_logic_high /caravel/spef/gpio_logic_high.spef;
+    read_spef -path gpio_control_in_1[$i]/gpio_logic_high /caravel/spef/gpio_logic_high.spef;
+}
+
+
+read_spef -path storage /caravel/spef/storage.spef;
+read_spef -path user_id_value /caravel/spef/user_id_programming.spef;
+read_spef -path soc/soc.soc_mem.mem.SRAM /caravel/spef/mprj_logic_high.spef;
+read_spef -path soc/soc.soc_mem.mem.SRAM /caravel/spef/mprj2_logic_high.spef;
+read_spef -path soc/soc.soc_mem.mem.SRAM /caravel/spef/DFFRAM.spef;
 read_spef -path soc/pll /caravel/spef/digital_pll.spef;
 read_spef -path soc /caravel/spef/mgmt_core.spef;
 read_spef -path mgmt_buffers /caravel/spef/mgmt_protect.spef;
 read_spef /caravel/spef/caravel.spef;
-
-
 
 read_sdc -echo /project_files/caravel.sdc;
 

@@ -7,6 +7,16 @@ OPENLANE_IMAGE_NAME=efabless/openlane:mpw-3a
 #RESULTS_PATH = $(shell pwd)/results
 # PROJECT_FILES = $(shell pwd)/project_files
 
+EXIT = ""
+ifndef no_exit
+	EXIT = -exit
+endif
+
+
+
+help:
+	@echo "Usage: make caravel_sta-<USER_PROJECT_FOLDER_NAME>"
+	
 
 caravel_sta-%: caravel_rcx
 	echo "\n\033[94mRunning Caravel Timing Analysis\033[0m\n"
@@ -17,10 +27,21 @@ caravel_sta-%: caravel_rcx
 	mkdir -p $(RESULTS_PATH)
 
 	docker run -it -v $(PROJECT_FILES):/project_files -v $(RESULTS_PATH):/results -v $(OPENLANE_ROOT):/openLANE_flow -v $(PDK_ROOT):$(PDK_ROOT) -v $(CARAVEL_ROOT):/caravel -e PDK_ROOT=$(PDK_ROOT) -u $(shell id -u $(USER)):$(shell id -g $(USER)) $(OPENLANE_IMAGE_NAME) \
-	sh -c " cd /caravel; sta -exit /project_files/sta_caravel.tcl |& tee /results/sta_$*_$(shell date +%y%m%d_%H%M%S).log" 
+	sh -c " cd /caravel; sta $(EXIT) /project_files/sta_caravel.tcl |& tee /results/sta_$*_$(shell date +%y%m%d_%H%M%S).log" 
 
 
-caravel_rcx: $(CARAVEL_ROOT)/spef/mgmt_protect.spef $(CARAVEL_ROOT)/spef/caravel.spef $(CARAVEL_ROOT)/spef/mgmt_core.spef $(CARAVEL_ROOT)/spef/digital_pll.spef 
+caravel_rcx: $(CARAVEL_ROOT)/spef/mgmt_protect.spef \
+				$(CARAVEL_ROOT)/spef/caravel.spef \
+				$(CARAVEL_ROOT)/spef/mgmt_core.spef \
+				$(CARAVEL_ROOT)/spef/digital_pll.spef  \
+				$(CARAVEL_ROOT)/spef/DFFRAM.spef  \
+				$(CARAVEL_ROOT)/spef/mprj_logic_high.spef \
+				$(CARAVEL_ROOT)/spef/mprj2_logic_high.spef \
+				$(CARAVEL_ROOT)/spef/mgmt_protect_hv.spef \
+				$(CARAVEL_ROOT)/spef/user_id_programming.spef \
+				$(CARAVEL_ROOT)/spef/gpio_control_block.spef \
+				$(CARAVEL_ROOT)/spef/gpio_logic_high.spef \
+				$(CARAVEL_ROOT)/spef/storage.spef 
 
 
 $(CARAVEL_ROOT)/spef/%.spef:

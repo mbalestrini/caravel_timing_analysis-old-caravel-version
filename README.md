@@ -47,4 +47,7 @@ Right now is only using the *sky130_fd_sc_hd* cell lib
 
 ## TODO
 
-- Confirm that the default `make rcx-module` from the caravel Makefile correct to generate the missing caravel modules .spef files?  (as the current `make caravel_rcx` is a copy of that script with a minor change)
+- Confirm that the current mpw-3a tag of the efabless/caravel repository is correct
+- Confirm that the default `make rcx-module` from the caravel Makefile is the correct way to generate the missing caravel module's .spef files?  (as the current `make caravel_rcx` is a copy of that script with a minor change)
+- Analyze all the warnings to check if there might me some files missing that are really needed or might affect the results
+- Make some user_project_wrapper with some identifiable cells to connect the ports of the user area and analyze the input and output delays  
