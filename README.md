@@ -33,14 +33,12 @@ sta log files in `/results/[NAME_OF_PROJECT_FOLDER]`
 ---
 
 ## some notes
-The default script right now only uses the following caravel modules for doing the analysis:
-- digital_pll
-- mgmt_core
-- mgmt_protect
-- caravel
+The default script right now loads most of the caravel modules (.v & .spef) for the analysis, but there are still some missing, mainly the chip_io and sram
 
-It also uses a placeholder for the *chip_io* module that forwards the clock to core_clock:
+It uses a placeholder for the *chip_io* module that forwards the clock to core_clock:
 - [NAME_OF_PROJECT_FOLDER]/verilog/chip_io_PLACEHOLDER.v
+
+The current test are focused on the timing analysis inside the mgmt_core and between the mgmt_core (soc) and the user_project_wrapper (mprj)
 
 Right now is only using the *sky130_fd_sc_hd* cell lib
 
