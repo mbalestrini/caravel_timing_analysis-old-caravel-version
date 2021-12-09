@@ -1,5 +1,6 @@
-# Caravel timing analysis test
+# AS `efabless/caravel` IS BEING REPLACED WITH `efabless/caravel_openframe` THIS REPOSITORY'S TEST DON'T APPLY ANYMORE
 
+# Caravel timing analysis test
 
 ### Environment variables needed
 `PDK_ROOT`
